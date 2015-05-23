@@ -1,0 +1,11 @@
+- name: create jenkins job builder config dir
+  file: name={{ playbook_dir }}/build/config state=directory
+
+- name: copy jenkins job builder ini file
+  copy: src=jenkins_job_builder/jenkins_jobs.ini dest={{ playbook_dir }}/build/config/
+
+- name: create jenkins job builder data dir
+  file: name={{ playbook_dir }}/build/jobs state=directory
+
+- name: install pipeline yml files
+  copy: src=jobs dest={{ playbook_dir }}/build/

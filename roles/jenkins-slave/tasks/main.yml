@@ -1,0 +1,6 @@
+- name: install private key for access to github
+  copy: src=../../jenkins/files/id_rsa dest=/home/ubuntu/.ssh/
+
+- name: install public key
+  copy: src=../../jenkins/files/id_rsa.pub dest=/home/ubuntu/.ssh/
+

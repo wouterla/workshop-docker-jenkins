@@ -1,0 +1,6 @@
+build/
+spring-petclinic/
+base-vagrant/
+.vagrant
+.git
+docker-jenkins-base.box

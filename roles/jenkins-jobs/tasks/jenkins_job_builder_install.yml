@@ -1,0 +1,13 @@
+- name: install jenkins cli
+  command: unzip /usr/share/jenkins/jenkins.war WEB-INF/jenkins-cli.jar -d /usr/share/jenkins
+
+#  get_url: "dest={{ jenkins_cli }} url=http://localhost:8080/jnlpJars/jenkins-cli.jar"
+
+- name: remove dir for jenkins-job-builder
+  file: path=/opt/jenkins-job-builder state=absent
+
+- name: create dir for jenkins-job-builder
+  file: path=/opt/jenkins-job-builder state=directory
+
+- name: Install Jenkins Job Builder
+  pip: name=jenkins-job-builder

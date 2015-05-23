@@ -1,0 +1,52 @@
+- defaults:
+    name: global
+    project-type: freestyle
+    properties:
+      - delivery-pipeline:
+          stage: '{pipeline-stage}'
+    scm:
+      - git:
+          name: origin
+          url: 'https://github.com/wouterla/{gitrepo}.git'
+          skip-tag: true
+          wipe-workspace: false
+          branches:
+            - '{branch}'
+    publishers:
+      - trigger-parameterized-builds:
+          - project: '{next-job}'
+            condition: "UNSTABLE_OR_BETTER"
+            git-revision: true
+            current-parameters: true
+
+- job-template:
+    name: '{name}-test'
+    builders:
+      - maven-target:
+          goals: '{goals}'
+
+- job-template:
+    name: '{name}-start'
+
+- job:
+    name: 'done'
+    project-type: freestyle
+    properties:
+      - delivery-pipeline:
+          stage: 'production'
+    scm: []
+    publishers: []
+
+- project:
+    name: petclinic
+    gitrepo: 'spring-petclinic'
+    branch: 'master'
+    jobs:
+      - '{name}-start':
+          pipeline-stage: 'build'
+          next-job: 'petclinic-test'
+      - '{name}-test':
+          goals: 'test'
+          pipeline-stage: 'build'
+          next-job: 'done'
+      - 'done'

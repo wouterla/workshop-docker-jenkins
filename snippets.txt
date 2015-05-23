@@ -1,0 +1,102 @@
+- job:
+    name: global
+    project-type: freestyle
+    properties:
+      - delivery-pipeline:
+          stage: 'build'
+    scm:
+      - git:
+          name: origin
+          url: 'https://github.com/wouterla/spring-petclinic.git'
+          skip-tag: true
+          wipe-workspace: false
+          branches:
+            - 'master'
+    builders:
+      - maven-target:
+          goals: 'clean install'
+    publishers:
+      - email:
+          recipients: 'test@example.com'
+          send-to-individuals: true
+          notify-every-unstable-build: true
+
+- job-template:
+    name: '{name}-create-docker-image'
+    builders:
+      - maven-target:
+          goals: 'clean install'
+      - shell: |
+          #!/bin/bash
+          set -v
+          set -e
+
+          echo "Copying docker files"
+          cp docker/* target/
+
+          echo "Running docker"
+          cd target/
+          docker build -t wouterla/docker-petclinic .
+
+          #echo "Pushing docker image to repository"
+          #docker push wouterla/docker-jenkins
+
+- builder:
+    name: integration-test
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -v
+          set -e
+          URL=http://{host}:{external-port}/vets.html
+          sleep 10
+          curl --retry 10 --retry-max-time 10 --retry-delay 1 --output /dev/null --silent --head --fail ${{URL}}
+
+- job-template:
+    name: '{name}-test-integration-test'
+    builders:
+      - integration-test:
+          host: '{host}'
+          external-port: '{external-port}'
+
+- builder:
+    name: deploy
+    builders:
+      - shell: |
+          #!/bin/bash
+          set -v
+          set +e #the next step can return error code if no container is running
+          docker stop {name}-{env} && docker rm {name}-{env}
+          set -e
+          docker run -d -p {external-port}:{internal-port} --name {name}-{env} wouterla/docker-{name}
+
+- job-template:
+    name: '{name}-deploy-test'
+    builders:
+      - deploy:
+          name: '{name}'
+          env: '{env}'
+          external-port: '{external-port}'
+          internal-port: '{internal-port}'
+
+- job-template: &CAN_REUSE
+    name: '{name}-reusable'
+    hipchat:
+      enabled: true
+      room: Jenkins
+      start-notify: false
+      notify-success: true
+      notify-aborted: true
+      notify-not-built: true
+      notify-unstable: true
+      notify-failure: true
+      notify-back-to-normal: true
+    builders:
+      - maven-target:
+          goals: 'clean install'
+
+- job-template:
+    <<: *CAN_REUSE
+    builders:
+      - maven-target:
+          goals: 'clean docker:build'

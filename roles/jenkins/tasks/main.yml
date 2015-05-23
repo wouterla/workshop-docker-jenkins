@@ -1,0 +1,15 @@
+- name: Create target directory
+  file: path={{ playbook_dir }}/build/jenkins_home/ state=directory
+
+- name: Recreate the base jenkins configuration
+  template: src=config.xml.j2 dest={{ playbook_dir }}/build/jenkins_home/config.xml
+
+- name: Plugin configurations
+  template: src={{ item.src }} dest={{ playbook_dir }}/build/jenkins_home/{{ item.dest }}
+  with_items:
+    - src: jenkins.model.JenkinsLocationConfiguration.xml.j2
+      dest: jenkins.model.JenkinsLocationConfiguration.xml
+    - src: jenkins.mvn.GlobalMavenConfig.xml
+      dest: jenkins.mvn.GlobalMavenConfig.xml
+    - src: hudson.tasks.Maven.xml
+      dest: hudson.tasks.Maven.xml

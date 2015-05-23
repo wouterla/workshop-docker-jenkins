@@ -1,0 +1,4 @@
+- hosts: localhost
+  sudo: no
+  roles:
+    - jenkins

@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <disabledAdministrativeMonitors/>
+  <version>1.580</version>
+  <numExecutors>4</numExecutors>
+  <mode>NORMAL</mode>
+  <useSecurity>false</useSecurity>
+  <disableRememberMe>false</disableRememberMe>
+  <projectNamingStrategy class="jenkins.model.ProjectNamingStrategy$DefaultProjectNamingStrategy"/>
+  <workspaceDir>${ITEM_ROOTDIR}/workspace</workspaceDir>
+  <buildsDir>${ITEM_ROOTDIR}/builds</buildsDir>
+  <markupFormatter class="hudson.markup.EscapedMarkupFormatter"/>
+  <jdks/>
+  <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
+  <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
+  <clouds/>
+  <quietPeriod>0</quietPeriod>
+  <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
+  <views>
+    <hudson.model.AllView>
+      <owner class="hudson" reference="../../.."/>
+      <name>All</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+    </hudson.model.AllView>
+    <se.diabol.jenkins.pipeline.DeliveryPipelineView plugin="delivery-pipeline-plugin@0.8.11">
+      <owner class="hudson" reference="../../.."/>
+      <name>pipelines</name>
+      <filterExecutors>false</filterExecutors>
+      <filterQueue>false</filterQueue>
+      <properties class="hudson.model.View$PropertyList"/>
+      <componentSpecs/>
+      <noOfPipelines>3</noOfPipelines>
+      <showAggregatedPipeline>false</showAggregatedPipeline>
+      <noOfColumns>1</noOfColumns>
+      <sorting>se.diabol.jenkins.pipeline.sort.NameComparator</sorting>
+      <showAvatars>true</showAvatars>
+      <updateInterval>2</updateInterval>
+      <showChanges>true</showChanges>
+      <allowManualTriggers>true</allowManualTriggers>
+      <regexpFirstJobs>
+        <se.diabol.jenkins.pipeline.DeliveryPipelineView_-RegExpSpec>
+          <regexp>(.*)-start</regexp>
+        </se.diabol.jenkins.pipeline.DeliveryPipelineView_-RegExpSpec>
+      </regexpFirstJobs>
+    </se.diabol.jenkins.pipeline.DeliveryPipelineView>
+  </views>
+  <primaryView>All</primaryView>
+  <slaveAgentPort>0</slaveAgentPort>
+  <label>tests master</label>
+  <nodeProperties/>
+  <globalNodeProperties/>
+</hudson>
