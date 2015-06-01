@@ -1,5 +1,7 @@
 # workshop-docker-jenkins-startpoint
-Startpoint for participants in the workshop
+Startpoint for participants in the workshop "Docker & Jenkins Job Builder".
+
+Original sources on: [https://github.com/wouterla/workshop-docker-jenkins](https://github.com/wouterla/workshop-docker-jenkins)
 
 ## Prerequisites:
 - VirtualBox: [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
