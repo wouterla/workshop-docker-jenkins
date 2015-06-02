@@ -5,7 +5,7 @@ Original sources on: [https://github.com/wouterla/workshop-docker-jenkins](https
 
 ## Prerequisites:
 - VirtualBox: [https://www.virtualbox.org/wiki/Downloads](https://www.virtualbox.org/wiki/Downloads)
-- Vagrant: [https://www.virtualbox.org/wiki/Downloads](http://www.vagrantup.com/downloads.html)
+- Vagrant: [http://www.vagrantup.com/downloads.html](http://www.vagrantup.com/downloads.html)
 
 ### On Windows machines**:
 - Git bash: [https://msysgit.github.io/](https://msysgit.github.io/) or other package providing ssh. Ensure that the path containing the ssh.exe file is in your system PATH (ie.: `set PATH=%PATH%;C:\Program Files (x86)\Git\bin`)
